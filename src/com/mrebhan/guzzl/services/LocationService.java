@@ -28,7 +28,7 @@ public class LocationService extends Service implements LocationListener {
 	private LocationManager locationManager;
 	Location location;
 	private double[] latlong = new double[4];
-	boolean isGPSEnabled, isNetworkEnabled;
+	boolean isNetworkEnabled;
 
 	private final IBinder mBinder = new LocationBinder();
 
@@ -40,10 +40,6 @@ public class LocationService extends Service implements LocationListener {
 		
 		// initialize system GPS service to retrieve location info
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		
-		// getting GPS status
-		isGPSEnabled = locationManager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
 		// getting network status
 		isNetworkEnabled = locationManager
@@ -52,8 +48,6 @@ public class LocationService extends Service implements LocationListener {
 		if (!isNetworkEnabled) {
 			// if no network enabled show a dialog indicating so
 			sendBroadcast(new Intent (GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
-		} else if (!isGPSEnabled) {
-			sendBroadcast(new Intent (GuzzlApp.ACTION_NO_GPS_RECIEVER));
 		} else {
 			// get the last known location if unable to find new one
 			location = locationManager.getLastKnownLocation(provider);
@@ -89,7 +83,7 @@ public class LocationService extends Service implements LocationListener {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		if (isGPSEnabled || isNetworkEnabled)
+		if (isNetworkEnabled)
 			setLocationUpdate(MINTIME_ACTIVITY_BOUND);
 		Log.d(TAG, "service bound to activity");
 		return mBinder;

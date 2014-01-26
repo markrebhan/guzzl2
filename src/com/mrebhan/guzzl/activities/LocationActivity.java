@@ -1,4 +1,4 @@
-package com.mrebhan.guzzl.mapactivities;
+package com.mrebhan.guzzl.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

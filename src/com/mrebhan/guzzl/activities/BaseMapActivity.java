@@ -1,29 +1,30 @@
-package com.mrebhan.guzzl.mapactivities;
+package com.mrebhan.guzzl.activities;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.mrebhan.guzzl.R;
-import com.mrebhan.guzzl.mapfragments.MapsFragment;
+import com.mrebhan.guzzl.fragments.MapsFragment;
 
 /*
  * This base map activity displays the maps from google API,
  * defines GoogleMap object and sets options for Map
  *
  */
-public class BaseMapActivity extends Activity {
+public class BaseMapActivity extends FragmentActivity {
 
 	GoogleMap googleMap;
 	MapFragment mapFragment;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base_map);
 		findFragment();
+		
 	}
 
 	// Initialize googleMap variable in code
@@ -50,12 +51,5 @@ public class BaseMapActivity extends Activity {
 		googleMap.getUiSettings().setTiltGesturesEnabled(true);
 		googleMap.getUiSettings().setRotateGesturesEnabled(true);
 	}
-	
-
-	/*
-	 * @Override public boolean onCreateOptionsMenu(Menu menu) { // Inflate the
-	 * menu; this adds items to the action bar if it is present.
-	 * getMenuInflater().inflate(R.menu.base_map, menu); return true; }
-	 */
 
 }
