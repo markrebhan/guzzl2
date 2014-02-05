@@ -163,9 +163,11 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f040006;
         public static final int common_signin_btn_light_text_focused=0x7f040007;
         public static final int common_signin_btn_light_text_pressed=0x7f040005;
-        public static final int common_signin_btn_text_dark=0x7f04000b;
-        public static final int common_signin_btn_text_light=0x7f04000c;
+        public static final int common_signin_btn_text_dark=0x7f04000d;
+        public static final int common_signin_btn_text_light=0x7f04000e;
         public static final int opaque_black=0x7f04000a;
+        public static final int orange=0x7f04000b;
+        public static final int text_silver=0x7f04000c;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -180,48 +182,51 @@ containing a value of this type.
     }
     public static final class drawable {
         public static final int button_main_background=0x7f020000;
-        public static final int common_signin_btn_icon_dark=0x7f020001;
-        public static final int common_signin_btn_icon_disabled_dark=0x7f020002;
-        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f020003;
-        public static final int common_signin_btn_icon_disabled_focus_light=0x7f020004;
-        public static final int common_signin_btn_icon_disabled_light=0x7f020005;
-        public static final int common_signin_btn_icon_focus_dark=0x7f020006;
-        public static final int common_signin_btn_icon_focus_light=0x7f020007;
-        public static final int common_signin_btn_icon_light=0x7f020008;
-        public static final int common_signin_btn_icon_normal_dark=0x7f020009;
-        public static final int common_signin_btn_icon_normal_light=0x7f02000a;
-        public static final int common_signin_btn_icon_pressed_dark=0x7f02000b;
-        public static final int common_signin_btn_icon_pressed_light=0x7f02000c;
-        public static final int common_signin_btn_text_dark=0x7f02000d;
-        public static final int common_signin_btn_text_disabled_dark=0x7f02000e;
-        public static final int common_signin_btn_text_disabled_focus_dark=0x7f02000f;
-        public static final int common_signin_btn_text_disabled_focus_light=0x7f020010;
-        public static final int common_signin_btn_text_disabled_light=0x7f020011;
-        public static final int common_signin_btn_text_focus_dark=0x7f020012;
-        public static final int common_signin_btn_text_focus_light=0x7f020013;
-        public static final int common_signin_btn_text_light=0x7f020014;
-        public static final int common_signin_btn_text_normal_dark=0x7f020015;
-        public static final int common_signin_btn_text_normal_light=0x7f020016;
-        public static final int common_signin_btn_text_pressed_dark=0x7f020017;
-        public static final int common_signin_btn_text_pressed_light=0x7f020018;
-        public static final int ic_action_edit=0x7f020019;
-        public static final int ic_launcher=0x7f02001a;
-        public static final int ic_plusone_medium_off_client=0x7f02001b;
-        public static final int ic_plusone_small_off_client=0x7f02001c;
-        public static final int ic_plusone_standard_off_client=0x7f02001d;
-        public static final int ic_plusone_tall_off_client=0x7f02001e;
+        public static final int button_slider=0x7f020001;
+        public static final int common_signin_btn_icon_dark=0x7f020002;
+        public static final int common_signin_btn_icon_disabled_dark=0x7f020003;
+        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f020004;
+        public static final int common_signin_btn_icon_disabled_focus_light=0x7f020005;
+        public static final int common_signin_btn_icon_disabled_light=0x7f020006;
+        public static final int common_signin_btn_icon_focus_dark=0x7f020007;
+        public static final int common_signin_btn_icon_focus_light=0x7f020008;
+        public static final int common_signin_btn_icon_light=0x7f020009;
+        public static final int common_signin_btn_icon_normal_dark=0x7f02000a;
+        public static final int common_signin_btn_icon_normal_light=0x7f02000b;
+        public static final int common_signin_btn_icon_pressed_dark=0x7f02000c;
+        public static final int common_signin_btn_icon_pressed_light=0x7f02000d;
+        public static final int common_signin_btn_text_dark=0x7f02000e;
+        public static final int common_signin_btn_text_disabled_dark=0x7f02000f;
+        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020010;
+        public static final int common_signin_btn_text_disabled_focus_light=0x7f020011;
+        public static final int common_signin_btn_text_disabled_light=0x7f020012;
+        public static final int common_signin_btn_text_focus_dark=0x7f020013;
+        public static final int common_signin_btn_text_focus_light=0x7f020014;
+        public static final int common_signin_btn_text_light=0x7f020015;
+        public static final int common_signin_btn_text_normal_dark=0x7f020016;
+        public static final int common_signin_btn_text_normal_light=0x7f020017;
+        public static final int common_signin_btn_text_pressed_dark=0x7f020018;
+        public static final int common_signin_btn_text_pressed_light=0x7f020019;
+        public static final int edittext_slider=0x7f02001a;
+        public static final int ic_action_edit=0x7f02001b;
+        public static final int ic_launcher=0x7f02001c;
+        public static final int ic_plusone_medium_off_client=0x7f02001d;
+        public static final int ic_plusone_small_off_client=0x7f02001e;
+        public static final int ic_plusone_standard_off_client=0x7f02001f;
+        public static final int ic_plusone_tall_off_client=0x7f020020;
+        public static final int progressbar_fuel=0x7f020021;
+        public static final int thumb_fuel=0x7f020022;
     }
     public static final class id {
         public static final int LinearLayoutOptions=0x7f05000e;
-        public static final int button_MPG_City=0x7f05000c;
-        public static final int button_MPG_Highway=0x7f05000b;
         public static final int button_cancel_car_picker=0x7f050014;
         public static final int button_cancel_car_picker_manual=0x7f05000f;
+        public static final int button_cancel_fuel_reading=0x7f050019;
         public static final int button_free_mode=0x7f050008;
-        public static final int button_fuel_size=0x7f05000d;
         public static final int button_main=0x7f050009;
         public static final int button_make=0x7f050012;
         public static final int button_model=0x7f050013;
+        public static final int button_ok_car_fuel_reading=0x7f05001a;
         public static final int button_ok_car_picker=0x7f050015;
         public static final int button_ok_car_picker_manual=0x7f050010;
         public static final int button_plan_trip=0x7f050007;
@@ -230,13 +235,23 @@ containing a value of this type.
         public static final int fragment_map=0x7f050005;
         public static final int frameLayout_main=0x7f050006;
         public static final int hybrid=0x7f050004;
-        public static final int map=0x7f050016;
-        public static final int menu_modify_car=0x7f050018;
+        public static final int map=0x7f05001b;
+        public static final int menu_modify_car=0x7f050021;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int pager=0x7f050017;
+        public static final int pager=0x7f050020;
         public static final int satellite=0x7f050002;
+        public static final int seekbar_fuel_guage=0x7f050017;
+        public static final int slider_fuel_size=0x7f05000d;
+        public static final int slider_label=0x7f05001c;
+        public static final int slider_mpg_city=0x7f05000c;
+        public static final int slider_mpg_highway=0x7f05000b;
+        public static final int slider_seek_bar=0x7f05001f;
+        public static final int slider_value=0x7f05001e;
+        public static final int slider_value_type=0x7f05001d;
         public static final int terrain=0x7f050003;
+        public static final int text_fuel_gauge=0x7f050018;
+        public static final int title_fuelguage=0x7f050016;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f070000;
@@ -247,8 +262,10 @@ containing a value of this type.
         public static final int button_main=0x7f030002;
         public static final int fragment_car_manual=0x7f030003;
         public static final int fragment_car_picker=0x7f030004;
-        public static final int fragment_maps=0x7f030005;
-        public static final int pageviewer=0x7f030006;
+        public static final int fragment_fuel_reading=0x7f030005;
+        public static final int fragment_maps=0x7f030006;
+        public static final int fragment_slider=0x7f030007;
+        public static final int pageviewer=0x7f030008;
     }
     public static final class menu {
         public static final int menu_map_activity=0x7f0a0000;
@@ -353,13 +370,19 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f060013;
         public static final int free_mode=0x7f06001d;
+        public static final int fuel_remaining=0x7f06002c;
+        public static final int fuel_size=0x7f060028;
+        public static final int gal=0x7f06002b;
         public static final int make=0x7f060022;
         public static final int model=0x7f060023;
         public static final int modify_car=0x7f060026;
+        public static final int modify_car_manual=0x7f060027;
+        public static final int mpg=0x7f06002a;
         public static final int mpg_city=0x7f060025;
         public static final int mpg_hw=0x7f060024;
         public static final int ok=0x7f06001f;
         public static final int plan_trip=0x7f06001c;
+        public static final int slider_starting_value=0x7f060029;
         public static final int year=0x7f060021;
     }
     public static final class style {

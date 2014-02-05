@@ -3,50 +3,49 @@
     android:layout_width="300dp"
     android:layout_height="match_parent"
     android:background="@color/opaque_black" >
-
-    <TextView
-        android:id="@+id/car_picker_title"
+    
+    
+    <TextView 
+        android:id="@+id/title_fuelguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fuel_remaining"
+        android:textColor="@color/text_silver"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"/>
+    
+    <SeekBar 
+        android:id="@+id/seekbar_fuel_guage"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:maxHeight="100dp"
+        android:progress="16"
+        android:max="16"
+        android:progressDrawable="@drawable/progressbar_fuel" 
+        android:thumb="@drawable/thumb_fuel"
+        android:thumbOffset="0dp"
+        android:layout_below="@+id/text_fuel_gauge"/>
+    
+    <TextView android:id="@+id/text_fuel_gauge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:text="@string/modify_car_manual"
-        android:textColor="@color/text_silver"
-        android:textSize="22sp" />
-
-    <FrameLayout
-        android:id="@+id/slider_mpg_highway"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nextFocusDown="@+id/slider_mpg_city"
-        android:layout_below="@+id/car_picker_title" >
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/slider_mpg_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nextFocusDown="@+id/slider_fuel_size"
-        android:layout_below="@+id/slider_mpg_highway" >
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/slider_fuel_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/slider_mpg_city" >
-    </FrameLayout>
-
+        android:textSize="18sp"
+        android:layout_below="@+id/title_fuelguage"
+        android:textColor="@color/text_silver"/>
+    
     <LinearLayout
         android:id="@+id/LinearLayoutOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/slider_fuel_size"
+        android:layout_below="@+id/seekbar_fuel_guage"
         android:layout_marginTop="7dp"
         android:weightSum="1" >
 
         <Button
-            android:id="@+id/button_cancel_car_picker_manual"
+            android:id="@+id/button_cancel_fuel_reading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -56,7 +55,7 @@
             android:textColor="@color/text_silver"/>
 
         <Button
-            android:id="@+id/button_ok_car_picker_manual"
+            android:id="@+id/button_ok_car_fuel_reading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -65,5 +64,6 @@
             android:text="@string/ok"
             android:textColor="@color/text_silver" />
     </LinearLayout>
+    
 
 </RelativeLayout>

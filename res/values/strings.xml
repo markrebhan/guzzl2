@@ -14,5 +14,11 @@
     <string name="mpg_hw">Est. MPG Highway</string>
     <string name="mpg_city">Est. MPG City</string>
     <string name="modify_car">Change Car</string>
+    <string name="modify_car_manual">Manual Fuel Entry</string>
+    <string name="fuel_size">Fuel Size</string>
+    <string name="slider_starting_value">0</string>
+    <string name="mpg">MPG</string>
+    <string name="gal">GAL</string>
+    <string name="fuel_remaining">Fuel Gauge Reading</string>
 
 </resources>

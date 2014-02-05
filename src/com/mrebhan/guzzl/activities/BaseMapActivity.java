@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.mrebhan.guzzl.R;
@@ -23,8 +25,10 @@ public class BaseMapActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base_map);
-		findFragment();
 		
+		// check for google play 
+		int googlePlay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (googlePlay == ConnectionResult.SUCCESS) findFragment();
 	}
 
 	// Initialize googleMap variable in code

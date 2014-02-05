@@ -3,18 +3,17 @@ package com.mrebhan.guzzl.activities;
 
 
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mrebhan.guzzl.R;
+import com.mrebhan.guzzl.utils.FragmentTransactions;
 
 /**
  * This subclass of the base activity handles Menu item events
  */
 
-public class MapActivityMenu extends BaseMapActivity {
+public class MapActivityMenu extends CheckConfigurationActivity {
 
 	// create a new interface that starts up showcarpicker fragment when called
 	//ShowCarPicker mShowCarPicker = (ShowCarPicker) this; // this refers to a subclass of this class
@@ -29,12 +28,7 @@ public class MapActivityMenu extends BaseMapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_modify_car:
-			// Pop the carpicker fragment to select/mofify car settings
-			Fragment fragment = new CarPickerPageViewer();
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.add(R.id.frameLayout_main, fragment);
-			ft.addToBackStack(null);
-			ft.commit();
+			FragmentTransactions.replaceCarPicker(this);
 		default:
 			return false;
 		}

@@ -106,18 +106,23 @@ public class LocationService extends Service implements LocationListener {
 	}
 
 	@Override
-	public void onLocationChanged(Location location) {
-		Log.d(TAG, location.getLatitude() + " " + location.getLongitude());
-		latlong[0] = location.getLatitude();
-		latlong[1] = location.getLongitude();
-		// get bearing so we can point marker in the correct direction
-		// get speed and bearing for animation
-		latlong[2] = location.getBearing();
-		// in m/s
-		latlong[3] = location.getSpeed();
-		// send a broadcast of the new location along with extra coordinates
-		sendBroadcast(new Intent(GuzzlApp.ACTION_LOCATION_RECIEVER).putExtra(
-				GuzzlApp.EXTRA_COORDINATES, latlong));
+	public void onLocationChanged(final Location location) {
+		//new Thread(){
+			//public void run(){
+				
+				Log.d(TAG, location.getLatitude() + " " + location.getLongitude());
+				latlong[0] = location.getLatitude();
+				latlong[1] = location.getLongitude();
+				// get bearing so we can point marker in the correct direction
+				// get speed and bearing for animation
+				latlong[2] = location.getBearing();
+				// in m/s
+				latlong[3] = location.getSpeed();
+				// send a broadcast of the new location along with extra coordinates
+				sendBroadcast(new Intent(GuzzlApp.ACTION_LOCATION_RECIEVER).putExtra(
+						GuzzlApp.EXTRA_COORDINATES, latlong));
+			//}
+		//};
 
 	}
 

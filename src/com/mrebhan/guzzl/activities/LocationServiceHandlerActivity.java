@@ -18,7 +18,7 @@ import com.mrebhan.guzzl.services.LocationService.LocationBinder;
 /*
  * This class handles binding to Location service
  */
-public class LocationServiceHandlerActivity extends MapActivityMenu {
+public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 
 	public static final String TAG = "LocationServiceHandlerActivity";
 

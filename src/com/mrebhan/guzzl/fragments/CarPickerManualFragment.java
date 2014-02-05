@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PageViewerFragment extends Fragment{
+public class CarPickerManualFragment extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.pageviewer, container, false);
+		return inflater.inflate(R.layout.fragment_car_manual, container, false);
 	}
+	
 	
 
 }
