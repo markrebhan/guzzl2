@@ -24,6 +24,8 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
 	public static final String PREFERENCE_FUEL_REMAINING = "preference_fuel_remaining";
 	public static final String PREFERENCE_ODOMETER = "preference_odometer"; // in meters
     public static final String PREFERENCE_RANGE = "preference_range";
+
+    public static boolean STATE_SHOW_RANGE_ON_MAP = false;
 	
 	public SharedPreferences sharedPreferences;
 	

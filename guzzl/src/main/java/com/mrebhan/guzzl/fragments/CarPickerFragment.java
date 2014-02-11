@@ -79,13 +79,14 @@ public class CarPickerFragment extends Fragment {
 		args.putInt(SeekBarFragment.SEEK_VALUE_TYPE, stringValueType);
 		args.putInt(SeekBarFragment.SEEK_PROGRESS_IN, progress);
 		SeekBarFragment fragment = new SeekBarFragment();
+        // for nested fragments, call childFragment manager
 		fragment.setArguments(args);
 		FragmentTransaction ft = getChildFragmentManager().beginTransaction()
 				.replace(frameLayout, fragment);
 		ft.commit();
 	}
-	
-	// on click listener defined in XML
+
+
 	private void onOkay(){
 		// Save all the values into shared preferences
 		int [] out = getSeekBarData();

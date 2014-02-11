@@ -2,6 +2,7 @@ package com.mrebhan.guzzl.activities;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -10,6 +11,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.mrebhan.guzzl.R;
+import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.fragments.MapsFragment;
 import com.mrebhan.guzzl.services.UpdateMileage;
 
@@ -22,6 +24,9 @@ public class BaseMapActivity extends FragmentActivity {
 
 	GoogleMap googleMap;
 	MapFragment mapFragment;
+
+    // get shared preferences for all subactivities
+    SharedPreferences sharedPreferences;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,8 @@ public class BaseMapActivity extends FragmentActivity {
 		setContentView(R.layout.activity_base_map);
 		
 		startService(new Intent(this, UpdateMileage.class));
+
+        sharedPreferences = getSharedPreferences(GuzzlApp.PREFERENCE_MAIN,0);
 		
 		// check for google play 
 		int googlePlay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);

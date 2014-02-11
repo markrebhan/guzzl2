@@ -127,7 +127,7 @@ public class UpdateMileage extends Service {
         editor.putFloat(GuzzlApp.PREFERENCE_ODOMETER, result);
         editor.putFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, resultFuel);
         // put in the total range remaining for the gas tank based on current fuel reading times highway MPG
-        editor.putFloat(GuzzlApp.PREFERENCE_RANGE, (float) resultFuel * sharedPreferences.getInt(GuzzlApp.PREFERENCE_MPG_HW, 0));
+        editor.putFloat(GuzzlApp.PREFERENCE_RANGE, (float) resultFuel * sharedPreferences.getInt(GuzzlApp.PREFERENCE_MPG_HW, 0)); // in miles
         editor.commit();
     }
 

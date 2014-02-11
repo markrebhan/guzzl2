@@ -20,5 +20,6 @@
     <string name="mpg">MPG</string>
     <string name="gal">GAL</string>
     <string name="fuel_remaining">Fuel Gauge Reading</string>
+    <string name="modify_fuel">Modify Fuel</string>
 
 </resources>

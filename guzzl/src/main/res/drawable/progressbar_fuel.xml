@@ -7,7 +7,7 @@
                 android:angle="270"
                 android:endColor="#646663"
                 android:startColor="#646663" />
-            <corners android:radius="5dp" />
+            <corners android:radius="10dp" />
         </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">
@@ -17,7 +17,7 @@
                     android:angle="270"
                     android:endColor="#007700"
                     android:startColor="#00AA00" />
-                <corners android:radius="5dp" />
+                <corners android:radius="10dp" />
             </shape>
         </clip>
     </item>
@@ -28,7 +28,7 @@
                     android:angle="270"
                     android:endColor="#007700"
                     android:startColor="#00AA00" />
-                <corners android:radius="5dp" />
+                <corners android:radius="10dp" />
             </shape>
         </clip>
     </item>
