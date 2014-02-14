@@ -21,7 +21,7 @@ public class LocationService extends Service implements LocationListener {
 
 	// Define constants for length of refreshs
 	public static final int MINTIME_ACTIVITY_BOUND = 100;
-	public static final int MINTIME_BACKGROUND = 300000;
+	public static final int MINTIME_BACKGROUND = 30000;
 	public static final int MINDISTANCE = 5; // in meters
 
 	static final String provider = LocationManager.GPS_PROVIDER;

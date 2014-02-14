@@ -105,7 +105,7 @@ public class InfoBarFragment extends Fragment implements UpdateInfoBar {
     //TODO move if other classes implement this method
     private void makeFuelToast(){
         String fuelRemaining = Float.toString(sharedPreferences.getFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, 0)); // in gallons by default
-        Toast toast = Toast.makeText(getActivity(), fuelRemaining + " " + R.string.gal, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getActivity(), fuelRemaining + " " + getResources().getString(R.string.gal), Toast.LENGTH_LONG);
         toast.show();
 
     }

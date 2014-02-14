@@ -54,6 +54,7 @@ public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 		Intent intent = new Intent(this, LocationService.class);
 		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
+
 	}
 
 	@Override

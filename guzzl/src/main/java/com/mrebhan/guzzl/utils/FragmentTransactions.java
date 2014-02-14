@@ -53,5 +53,9 @@ public class FragmentTransactions {
     public static void removeInfoBar(FragmentActivity activity){
         activity.getSupportFragmentManager().beginTransaction().remove(infoBar).commit();
     }
+
+    public static void replaceNotification(FragmentActivity activity){
+
+    }
 	
 }

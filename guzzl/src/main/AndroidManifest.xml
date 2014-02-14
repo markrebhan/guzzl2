@@ -64,6 +64,13 @@
             android:name="com.mrebhan.guzzl.services.UpdateMileage"
             android:exported="false"></service>
 
+        <receiver android:name=".receivers.AlarmManagerReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="com.mrebhan.guzzl.AlarmManager"></action>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

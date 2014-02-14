@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.mrebhan.guzzl.services.*;
 
 public class GuzzlApp extends Application implements OnSharedPreferenceChangeListener{
@@ -14,6 +15,7 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
 	public static final String ACTION_LOCATION_RECIEVER = "com.mrebhan.guzzl.locationReciever";
 	public static final String ACTION_NO_GPS_RECIEVER = "com.mrebhan.guzzl.receivers.ReceiverNoGPS";
 	public static final String ACTION_NO_NETWORK_RECIEVER = "com.mrebhan.guzzl.receivers.ReceiverNoNetwork";
+    public static final String ACTION_START_ALARMMANAGER = "com.mrebhan.guzzl.AlarmManager";
 	
 	public static final String EXTRA_COORDINATES = "com.mrebhan.guzzl.coordinates";
 	
@@ -26,6 +28,10 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
     public static final String PREFERENCE_RANGE = "preference_range";
 
     public static boolean STATE_SHOW_RANGE_ON_MAP = false;
+
+    public static LatLng STATE_CURRENT_POSITION;
+    public static LatLng STATE_PREVIOUS_POSITION;
+
 	
 	public SharedPreferences sharedPreferences;
 	
@@ -35,7 +41,9 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
 		super.onCreate();
 		sharedPreferences = getSharedPreferences(PREFERENCE_MAIN, 0);
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-		// start up update mileage service
+		// set up alarmManager
+
+        sendBroadcast(new Intent(ACTION_START_ALARMMANAGER));
 		
 	}
 	
