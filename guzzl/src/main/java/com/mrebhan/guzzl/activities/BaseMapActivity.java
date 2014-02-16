@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -36,6 +37,9 @@ public class BaseMapActivity extends FragmentActivity {
 		startService(new Intent(this, UpdateMileage.class));
 
         sharedPreferences = getSharedPreferences(GuzzlApp.PREFERENCE_MAIN,0);
+
+        Log.d("GuzzlApp", "App Created");
+        sendBroadcast(new Intent(GuzzlApp.ACTION_START_ALARMMANAGER));
 		
 		// check for google play 
 		int googlePlay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);

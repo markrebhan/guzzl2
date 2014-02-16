@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.mrebhan.guzzl.services.LocationService;
 import com.mrebhan.guzzl.services.UpdateMileage;
@@ -18,6 +19,7 @@ public class AlarmManagerReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        Log.d("AlarmManagerReceiver", "onReceive");
 
         long interval = 30000; // in ms
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.mrebhan.guzzl.services.*;
@@ -28,9 +29,10 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
     public static final String PREFERENCE_RANGE = "preference_range";
 
     public static boolean STATE_SHOW_RANGE_ON_MAP = false;
-
     public static LatLng STATE_CURRENT_POSITION;
     public static LatLng STATE_PREVIOUS_POSITION;
+
+
 
 	
 	public SharedPreferences sharedPreferences;
@@ -43,7 +45,6 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
 		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		// set up alarmManager
 
-        sendBroadcast(new Intent(ACTION_START_ALARMMANAGER));
 		
 	}
 	

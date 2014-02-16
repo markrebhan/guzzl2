@@ -49,7 +49,6 @@ public class AsyncTaskUpdateMetrics extends AsyncTask<Double, Void, Void> {
         double latitude = doubles[0];
         double longitude = doubles[1];
         double timeElapsed = doubles[2];
-        double totalTimeElapsed = doubles[3];
 
         GuzzlApp.STATE_CURRENT_POSITION = new LatLng(latitude, longitude);
         double distanceTraveled = 0;
@@ -60,7 +59,7 @@ public class AsyncTaskUpdateMetrics extends AsyncTask<Double, Void, Void> {
             // calculate fuel consumed based on distance traveled and fuelEfficency
             fuelConsumed = FuelRemaining.CalculateFuelConsumed(distanceTraveled, getFuelEfficiency(isHighway));
 
-            HashMap<String, Float> results = calculateNewValues(distanceTraveled, fuelConsumed, timeElapsed, totalTimeElapsed);
+            HashMap<String, Float> results = calculateNewValues(distanceTraveled, fuelConsumed, timeElapsed);
             updateSharedPreferences(results); // add value to odometer
         }
         GuzzlApp.STATE_PREVIOUS_POSITION = GuzzlApp.STATE_CURRENT_POSITION;
@@ -71,7 +70,7 @@ public class AsyncTaskUpdateMetrics extends AsyncTask<Double, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        updateInfoBar.updateValues();
+        if(updateInfoBar != null) updateInfoBar.updateValues();
         Log.d(TAG, "onPostExecute");
     }
 
@@ -88,7 +87,7 @@ public class AsyncTaskUpdateMetrics extends AsyncTask<Double, Void, Void> {
     }
 
 
-    private HashMap<String, Float> calculateNewValues(double newDistance, double fuelConsumed, double timeElapsed, double totalTimeElapsed){
+    private HashMap<String, Float> calculateNewValues(double newDistance, double fuelConsumed, double timeElapsed){
         float current = sharedPreferences.getFloat(GuzzlApp.PREFERENCE_ODOMETER, 0);
         float currentFuel = sharedPreferences.getFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, 0);
 
@@ -102,14 +101,12 @@ public class AsyncTaskUpdateMetrics extends AsyncTask<Double, Void, Void> {
 
         // send a notification if the amount of range remaining is less than 50 create a fragment to create the notification
         // send notification every 10 minutes as to not bombard the user
-        totalTimeElapsed += timeElapsed;
-        Log.d(TAG, Double.toString(totalTimeElapsed));
-        if(currentRange < 50.0f && totalTimeElapsed >= 600 /*in seconds*/){
+        UpdateMileage.totalTimeElapsed += timeElapsed;
+        Log.d(TAG, Double.toString(UpdateMileage.totalTimeElapsed));
+        if(currentRange < 50.0f && UpdateMileage.totalTimeElapsed >= 600 /*in seconds*/){
             // create a notification object to create a notification
             NotificationFuelLevel notificationFuelLevel = new NotificationFuelLevel(context);
             notificationFuelLevel.buildNotification(currentRange);
-            // set the original totalTime elapsed back to 0
-            UpdateMileage.totalTimeElapsed = 0;
         }
 
         HashMap<String, Float> resultsMap = new HashMap<String, Float>();

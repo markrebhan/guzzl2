@@ -10,6 +10,8 @@ import android.os.Build;
 
 import com.mrebhan.guzzl.R;
 import com.mrebhan.guzzl.activities.InfoBar;
+import com.mrebhan.guzzl.services.ResetNotificationTimer;
+import com.mrebhan.guzzl.utils.DecimalFormatter;
 
 /**
  * Created by markrebhan on 2/13/14.
@@ -29,11 +31,15 @@ public class NotificationFuelLevel {
         Intent intent = new Intent(context, InfoBar.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
 
+        // build pending intent for when the notification is removed by user so we can set time counter to 0;
+        Intent intent1 = new Intent(context, ResetNotificationTimer.class);
+        PendingIntent pendingIntent1 = PendingIntent.getService(context, 0, intent1, 0);
+
         // Build out the notification
         Notification.Builder notification = new Notification.Builder(context);
         notification.setSmallIcon(R.drawable.ic_launcher).setContentTitle(context.getResources().getString(R.string.notification_title))
-                .setContentText(String.format(context.getResources().getString(R.string.notification_text), currentRange))
-                .setContentIntent(pendingIntent);
+                .setContentText(String.format(context.getResources().getString(R.string.notification_text), DecimalFormatter.decimalFormatter(currentRange)))
+                .setContentIntent(pendingIntent).setDeleteIntent(pendingIntent1);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 

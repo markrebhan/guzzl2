@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -33,6 +35,7 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
         OnMapClickListener, OnMarkerClickListener, OnStateShowRangeOnMapChanged {
 
     public static final String TAG = "LocationActivity";
+    public static final int CAMERA_ANIMATION_TIME = 1000; // in ms
 
     BroadcastReceiver receiver;
 
@@ -120,10 +123,26 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
         }
 
         // animate the marker given current bearing and velocity
-        MarkerAnimation.animateMarkerHC(marker, googleMap, bearing, velocity);
+        LatLng finalPosition = MarkerAnimation.animateMarkerHC(marker, bearing, velocity);
 
-       // create circle or update
-       onShowRangeOnMap();
+        // given the calculated final position, animate the camera to that position if center map is true
+        if (centerMap) {
+            CameraPosition c = new CameraPosition.Builder().target(finalPosition).bearing((float) bearing).zoom(googleMap.getCameraPosition().zoom).build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c), CAMERA_ANIMATION_TIME, new GoogleMap.CancelableCallback() {
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        }
+
+        // create circle or update
+        onShowRangeOnMap();
     }
 
     // implement onStateShowRangeOnMap
@@ -139,8 +158,7 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
                 circle.setRadius(MetricConversion.milesToMeters(sharedPreferences.getFloat(GuzzlApp.PREFERENCE_RANGE, 0) * 0.8d));
             }
         } else {
-            if(circle !=null)
-            {
+            if (circle != null) {
                 circle.remove();
                 circle = null;
             }

@@ -21,7 +21,7 @@
     <string name="gal">GAL</string>
     <string name="fuel_remaining">Fuel Gauge Reading</string>
     <string name="modify_fuel">Modify Fuel</string>
-    <string name="notification_text">Approximately %1$f Miles of Fuel Left</string>
+    <string name="notification_text">Approximately %1$s Miles of Fuel Left</string>
     <string name="notification_title">Low Fuel Alert</string>
 
 </resources>

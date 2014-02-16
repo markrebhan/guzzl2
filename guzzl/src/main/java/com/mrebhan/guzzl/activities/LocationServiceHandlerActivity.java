@@ -25,14 +25,13 @@ public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 	Intent serviceIntent;
 	LocationService mService;
 	boolean mBound = false;
-	BroadcastReceiver receiverNoGPS;
 	BroadcastReceiver receiverNoNetwork;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		receiverNoNetwork = new RecieverNoNetwork();
+		receiverNoNetwork = new ReceiverNoNetwork();
 		registerReceiver(receiverNoNetwork, new IntentFilter(
 				GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
 	}
@@ -74,9 +73,6 @@ public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		// stop service with no binding
-		if (serviceIntent != null)
-			stopService(serviceIntent);
 		unregisterReceiver(receiverNoNetwork);
 	}
 
@@ -85,7 +81,7 @@ public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 	static EnableGPSDialog enableGPSDialog;
 	// this inner receiver class displays a error pop up if no network is
 	// detected
-	public class RecieverNoNetwork extends BroadcastReceiver {
+	public class ReceiverNoNetwork extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {

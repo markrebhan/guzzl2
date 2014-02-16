@@ -16,6 +16,7 @@ import com.mrebhan.guzzl.R;
 import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.interfacesgeneral.OnStateShowRangeOnMapChanged;
 import com.mrebhan.guzzl.interfacesgeneral.UpdateInfoBar;
+import com.mrebhan.guzzl.utils.DecimalFormatter;
 
 import java.util.zip.GZIPInputStream;
 
@@ -93,10 +94,7 @@ public class InfoBarFragment extends Fragment implements UpdateInfoBar {
             float progress = (fuelRemaining / fuelSize) * 100;
             progressBar.setProgress((int) progress);
 
-            String rangeS = Float.toString(range);
-            String[] rangeSA = rangeS.split(".");
-
-            text.setText(Float.toString(range));
+            text.setText(DecimalFormatter.decimalFormatter(range));
         }
 
     }
@@ -104,7 +102,7 @@ public class InfoBarFragment extends Fragment implements UpdateInfoBar {
     //Make toast of total fuel remaining
     //TODO move if other classes implement this method
     private void makeFuelToast(){
-        String fuelRemaining = Float.toString(sharedPreferences.getFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, 0)); // in gallons by default
+        String fuelRemaining = DecimalFormatter.decimalFormatter(sharedPreferences.getFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, 0)); // in gallons by default
         Toast toast = Toast.makeText(getActivity(), fuelRemaining + " " + getResources().getString(R.string.gal), Toast.LENGTH_LONG);
         toast.show();
 

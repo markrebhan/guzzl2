@@ -33,8 +33,6 @@ public class UpdateMileage extends Service {
     public static final String TAG = "Update Mileage";
 
     LocationReceiver receiver;
-    LatLng currentPosition;
-    LatLng previousPosition;
 
     long currentTime;
     long previousTime = 0;
@@ -51,6 +49,12 @@ public class UpdateMileage extends Service {
         registerReceiver(receiver, new IntentFilter(
                 GuzzlApp.ACTION_LOCATION_RECIEVER));
         super.onCreate();
+    }
+
+    // make the service sticky so it starts back up properly after the main process is destroyed
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
     }
 
     @Override
@@ -79,17 +83,12 @@ public class UpdateMileage extends Service {
 
             // create a new asynctask and execute
             AsyncTaskUpdateMetrics asyncTaskUpdateMetrics = new AsyncTaskUpdateMetrics(context);
-            asyncTaskUpdateMetrics.execute(loc[0], loc[1], timeElapsed, totalTimeElapsed);
+            asyncTaskUpdateMetrics.execute(loc[0], loc[1], timeElapsed);
 
 
             Log.d(TAG, "onReceive");
         }
     }
-
-
-
-
-
 
     @Override
     public IBinder onBind(Intent intent) {

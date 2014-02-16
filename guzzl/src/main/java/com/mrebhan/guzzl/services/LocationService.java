@@ -32,35 +32,45 @@ public class LocationService extends Service implements LocationListener {
 
 	private final IBinder mBinder = new LocationBinder();
 
-	@Override
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+       initializeMap();
+       return START_STICKY;
+    }
+
+    @Override
 	public void onCreate() {
 		super.onCreate();
-
-		Log.d(TAG, "Location Service Started.");
-		
-		// initialize system GPS service to retrieve location info
-		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-		// getting network status
-		isNetworkEnabled = locationManager
-				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-		if (!isNetworkEnabled) {
-			// if no network enabled show a dialog indicating so
-			sendBroadcast(new Intent (GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
-		} else {
-			// get the last known location if unable to find new one
-			location = locationManager.getLastKnownLocation(provider);
-			// initialize updates with background refresh times
-			setLocationUpdate(MINTIME_BACKGROUND);
-
-			// Manually call onLocationChanged to immediately display last known
-			// location
-			if (location != null)
-				onLocationChanged(location);
-		}
+        initializeMap();
 
 	}
+
+    private  void initializeMap(){
+        Log.d(TAG, "Location Service Started from new");
+
+        // initialize system GPS service to retrieve location info
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // getting network status
+        isNetworkEnabled = locationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!isNetworkEnabled) {
+            // if no network enabled show a dialog indicating so
+            sendBroadcast(new Intent (GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
+        } else {
+            // get the last known location if unable to find new one
+            location = locationManager.getLastKnownLocation(provider);
+            // initialize updates with background refresh times
+            setLocationUpdate(MINTIME_BACKGROUND);
+
+            // Manually call onLocationChanged to immediately display last known
+            // location
+            if (location != null)
+                onLocationChanged(location);
+        }
+    }
+
 
 	@Override
 	public void onDestroy() {
@@ -109,7 +119,7 @@ public class LocationService extends Service implements LocationListener {
 	public void onLocationChanged(final Location location) {
 		//new Thread(){
 			//public void run(){
-				
+
 				Log.d(TAG, location.getLatitude() + " " + location.getLongitude());
 				latlong[0] = location.getLatitude();
 				latlong[1] = location.getLongitude();
