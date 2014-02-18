@@ -17,9 +17,11 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
 	public static final String ACTION_NO_GPS_RECIEVER = "com.mrebhan.guzzl.receivers.ReceiverNoGPS";
 	public static final String ACTION_NO_NETWORK_RECIEVER = "com.mrebhan.guzzl.receivers.ReceiverNoNetwork";
     public static final String ACTION_START_ALARMMANAGER = "com.mrebhan.guzzl.AlarmManager";
+    public static final String ACTION_CHANGE_LOCATION_REFRESH = "com.guzzl.LocationRefresh";
 	
 	public static final String EXTRA_COORDINATES = "com.mrebhan.guzzl.coordinates";
-	
+	public static final String EXTRA_ON_ACTIVITY = "com.mrebhan.guzzl.onActivity";
+
 	public static final String PREFERENCE_MAIN = "preference_main";
 	public static final String PREFERENCE_MPG_HW = "preference_mpg_hw";
 	public static final String PREFERENCE_MPG_CITY = "preference_mpg_city";
@@ -29,8 +31,14 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
     public static final String PREFERENCE_RANGE = "preference_range";
 
     public static boolean STATE_SHOW_RANGE_ON_MAP = false;
+    public static boolean STATE_IN_VEHICLE = false;
     public static LatLng STATE_CURRENT_POSITION;
     public static LatLng STATE_PREVIOUS_POSITION;
+
+    // Define constants for length of refresh
+    public static final int MIN_TIME_LOCATION_REFRESH_ACTIVE = 100; // in ms
+    public static final int MIN_TIME_LOCATION_REFRESH_INACTIVE = 30000; // in ms
+    public static final int MIN_DISTANCE = 5; // in meters
 
 
 

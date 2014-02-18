@@ -14,7 +14,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.mrebhan.guzzl.R;
 import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.fragments.MapsFragment;
+import com.mrebhan.guzzl.services.LocationService;
 import com.mrebhan.guzzl.services.UpdateMileage;
+import com.mrebhan.guzzl.utils.PixelConverter;
 
 /*
  * This base map activity displays the maps from google API,
@@ -35,6 +37,7 @@ public class BaseMapActivity extends FragmentActivity {
 		setContentView(R.layout.activity_base_map);
 		
 		startService(new Intent(this, UpdateMileage.class));
+        startService(new Intent(this, LocationService.class));
 
         sharedPreferences = getSharedPreferences(GuzzlApp.PREFERENCE_MAIN,0);
 
@@ -69,6 +72,8 @@ public class BaseMapActivity extends FragmentActivity {
 		// allow tilt gestures
 		googleMap.getUiSettings().setTiltGesturesEnabled(true);
 		googleMap.getUiSettings().setRotateGesturesEnabled(true);
+        // set map padding so map features remain visible
+        googleMap.setPadding(0, PixelConverter.calculatePixels(this, 60),0,0);
 	}
 
 }

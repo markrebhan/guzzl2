@@ -31,15 +31,15 @@
         <activity
             android:name="com.mrebhan.guzzl.activities.BaseMapActivity"
             android:label="@string/app_name"></activity>
+        <activity android:name=".activities.CheckConfigurationActivity"></activity>
+        <activity android:name="com.mrebhan.guzzl.activities.MapActivityMenu"></activity>
         <activity
             android:name="com.mrebhan.guzzl.activities.LocationServiceHandlerActivity"
             android:label="@string/app_name"></activity>
         <activity
             android:name="com.mrebhan.guzzl.activities.LocationActivity"
             android:label="@string/app_name">
-
         </activity>
-        <activity android:name="com.mrebhan.guzzl.activities.MapActivityMenu"></activity>
         <activity
             android:name=".activities.InfoBar"
             android:label="guzzl">

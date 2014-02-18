@@ -10,6 +10,7 @@ import android.os.Build;
 
 import com.mrebhan.guzzl.R;
 import com.mrebhan.guzzl.activities.InfoBar;
+import com.mrebhan.guzzl.services.LocationService;
 import com.mrebhan.guzzl.services.ResetNotificationTimer;
 import com.mrebhan.guzzl.utils.DecimalFormatter;
 

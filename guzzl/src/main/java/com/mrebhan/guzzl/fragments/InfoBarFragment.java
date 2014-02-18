@@ -94,7 +94,7 @@ public class InfoBarFragment extends Fragment implements UpdateInfoBar {
             float progress = (fuelRemaining / fuelSize) * 100;
             progressBar.setProgress((int) progress);
 
-            text.setText(DecimalFormatter.decimalFormatter(range));
+            text.setText(DecimalFormatter.decimalFormatter(range) + " " + getResources().getString(R.string.miles));
         }
 
     }

@@ -1,36 +1,43 @@
 package com.mrebhan.guzzl.services;
 
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.ActivityRecognitionClient;
 import com.mrebhan.guzzl.app.GuzzlApp;
 
 /* 
  * This service implements LocationListener to retrieve current location
  */
-public class LocationService extends Service implements LocationListener {
+public class LocationService extends Service implements LocationListener,
+        GooglePlayServicesClient.OnConnectionFailedListener, GooglePlayServicesClient.ConnectionCallbacks{
 
 	public static final String TAG = "LocationService";
 
-	// Define constants for length of refreshs
-	public static final int MINTIME_ACTIVITY_BOUND = 100;
-	public static final int MINTIME_BACKGROUND = 30000;
-	public static final int MINDISTANCE = 5; // in meters
-
 	static final String provider = LocationManager.GPS_PROVIDER;
 	private LocationManager locationManager;
-	Location location;
-	private double[] latlong = new double[4];
+	private Location location;
 	boolean isNetworkEnabled;
 
-	private final IBinder mBinder = new LocationBinder();
+    ActivityRecognitionClient activityRecognitionClient;
+    PendingIntent pendingIntent;
+
+    // This Broadcast Receiver changes the value of time of refresh
+    BroadcastReceiver receiverChangeRefreshTime;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -42,8 +49,32 @@ public class LocationService extends Service implements LocationListener {
 	public void onCreate() {
 		super.onCreate();
         initializeMap();
+        receiverChangeRefreshTime = new ReceiverChangeRefreshTime();
+        registerReceiver(receiverChangeRefreshTime, new IntentFilter(GuzzlApp.ACTION_CHANGE_LOCATION_REFRESH));
+
+        int response = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (response == ConnectionResult.SUCCESS){
+            activityRecognitionClient = new ActivityRecognitionClient(this, this, this);
+            activityRecognitionClient.connect();
+        }
+        else {
+            Toast.makeText(this, "Please Install Google Play Services.", Toast.LENGTH_LONG).show();
+        }
 
 	}
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "Location Service Stopped.");
+        locationManager.removeUpdates(this);
+        unregisterReceiver(receiverChangeRefreshTime);
+
+        if (activityRecognitionClient != null){
+            activityRecognitionClient.removeActivityUpdates(pendingIntent);
+            activityRecognitionClient.disconnect();
+        }
+    }
 
     private  void initializeMap(){
         Log.d(TAG, "Location Service Started from new");
@@ -61,8 +92,8 @@ public class LocationService extends Service implements LocationListener {
         } else {
             // get the last known location if unable to find new one
             location = locationManager.getLastKnownLocation(provider);
-            // initialize updates with background refresh times
-            setLocationUpdate(MINTIME_BACKGROUND);
+            // initialize updates with foreground if map initialized
+            setLocationUpdate(GuzzlApp.MIN_TIME_LOCATION_REFRESH_ACTIVE);
 
             // Manually call onLocationChanged to immediately display last known
             // location
@@ -71,54 +102,20 @@ public class LocationService extends Service implements LocationListener {
         }
     }
 
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.d(TAG, "Location Service Stopped.");
-		locationManager.removeUpdates(this);
-	}
-
-	/**
-	 * Class used for the client Binder. Because we know this service always
-	 * runs in the same process as its clients, we don't need to deal with IPC.
-	 */
-	public class LocationBinder extends Binder {
-		public LocationService getService() {
-			// Return this instance of LocalService so clients can call public
-			// methods
-			return LocationService.this;
-		}
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		if (isNetworkEnabled)
-			setLocationUpdate(MINTIME_ACTIVITY_BOUND);
-		Log.d(TAG, "service bound to activity");
-		return mBinder;
-	}
-
-	@Override
-	public boolean onUnbind(Intent intent) {
-		// change setting to update less frequently when service not bound to
-		// activity
-		setLocationUpdate(MINTIME_BACKGROUND);
-		Log.d(TAG, "service unbound to activity");
-		return super.onUnbind(intent);
-
-	}
-
 	// call to update requestLocationUpdates minTime
 	public void setLocationUpdate(int minTime) {
-		locationManager.requestLocationUpdates(provider, minTime, MINDISTANCE,
+        Log.d(TAG, "New Refresh Rate =:" + Integer.toString(minTime));
+		locationManager.requestLocationUpdates(provider, minTime, GuzzlApp.MIN_DISTANCE,
 				this);
 	}
 
 	@Override
 	public void onLocationChanged(final Location location) {
-		//new Thread(){
-			//public void run(){
+		new Thread(){
+			public void run(){
+
+
+                double[] latlong = new double[4];
 
 				Log.d(TAG, location.getLatitude() + " " + location.getLongitude());
 				latlong[0] = location.getLatitude();
@@ -131,12 +128,51 @@ public class LocationService extends Service implements LocationListener {
 				// send a broadcast of the new location along with extra coordinates
 				sendBroadcast(new Intent(GuzzlApp.ACTION_LOCATION_RECIEVER).putExtra(
 						GuzzlApp.EXTRA_COORDINATES, latlong));
-			//}
-		//};
+			}
+		}.start();
 
 	}
 
-	@Override
+    public  class ReceiverChangeRefreshTime extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean isActivity = intent.getBooleanExtra(GuzzlApp.EXTRA_ON_ACTIVITY, true);
+            if(isActivity) {
+                setLocationUpdate(GuzzlApp.MIN_TIME_LOCATION_REFRESH_ACTIVE);
+                activityRecognitionClient.requestActivityUpdates(GuzzlApp.MIN_TIME_LOCATION_REFRESH_ACTIVE, pendingIntent);
+            }
+            else{
+                setLocationUpdate(GuzzlApp.MIN_TIME_LOCATION_REFRESH_INACTIVE);
+                activityRecognitionClient.requestActivityUpdates(GuzzlApp.MIN_TIME_LOCATION_REFRESH_INACTIVE, pendingIntent);
+            }
+        }
+    }
+
+    // Connection Callbacks
+    @Override
+    public void onConnected(Bundle bundle) {
+        Intent intent = new Intent(this, ActivityRecognitionService.class);
+        pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        activityRecognitionClient.requestActivityUpdates(GuzzlApp.MIN_TIME_LOCATION_REFRESH_ACTIVE, pendingIntent);
+    }
+
+    //OnConnectionFailedListener
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this, "Google Play Service Failed.", Toast.LENGTH_LONG).show();
+    }
+
+    // Connection Callbacks
+    @Override
+    public void onDisconnected() {
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
 	public void onProviderDisabled(String provider) {
 	}
 

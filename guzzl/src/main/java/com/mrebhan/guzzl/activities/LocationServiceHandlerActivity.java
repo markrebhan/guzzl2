@@ -13,64 +13,45 @@ import android.util.Log;
 import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.fragments.EnableGPSDialog;
 import com.mrebhan.guzzl.services.LocationService;
-import com.mrebhan.guzzl.services.LocationService.LocationBinder;
 
 /*
  * This class handles binding to Location service
  */
-public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
+public class LocationServiceHandlerActivity extends MapActivityMenu {
 
 	public static final String TAG = "LocationServiceHandlerActivity";
 
 	Intent serviceIntent;
 	LocationService mService;
 	boolean mBound = false;
+	BroadcastReceiver receiverNoGPS;
 	BroadcastReceiver receiverNoNetwork;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		receiverNoNetwork = new ReceiverNoNetwork();
+		receiverNoNetwork = new RecieverNoNetwork();
 		registerReceiver(receiverNoNetwork, new IntentFilter(
 				GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
 	}
 
-	// on start, stop the location service with background state and bind it
-	// with foreground state,
-	// this is the only place we stop then start the service so in case the user
-	// make change or
-	// turns the screen or moves away from app while no service, it attempts to
-	// kick back on
-	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.d(TAG, "onstart");
-		// stop service with no binding
-		if (serviceIntent != null)
-			stopService(serviceIntent);
-		// bind to LocationService
-		Intent intent = new Intent(this, LocationService.class);
-		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // send a broadcast to let the Location Service know to update location every second since the activity is in view
+        sendBroadcast(new Intent(GuzzlApp.ACTION_CHANGE_LOCATION_REFRESH).putExtra(GuzzlApp.EXTRA_ON_ACTIVITY, true));
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // send a broadcast to let the Location Service know to update location every 30 seconds since the activity is no longer in view
+        sendBroadcast(new Intent(GuzzlApp.ACTION_CHANGE_LOCATION_REFRESH).putExtra(GuzzlApp.EXTRA_ON_ACTIVITY, false));
+    }
 
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		// Unbind from the service
-		if (mBound) {
-			unbindService(mConnection);
-			mBound = false;
-		}
-
-		// Start location service with no binding associated with it
-		serviceIntent = new Intent(this, LocationService.class);
-		startService(serviceIntent);
-	}
-
-	@Override
+    @Override
 	protected void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(receiverNoNetwork);
@@ -81,7 +62,7 @@ public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 	static EnableGPSDialog enableGPSDialog;
 	// this inner receiver class displays a error pop up if no network is
 	// detected
-	public class ReceiverNoNetwork extends BroadcastReceiver {
+	public class RecieverNoNetwork extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -94,23 +75,5 @@ public class LocationServiceHandlerActivity extends ActivityRecognitionHandler {
 		}
 
 	}
-
-	/** Defines callbacks for service binding, passed to bindService() */
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			// We've bound to LocalService, cast the IBinder and get
-			// LocalService instance
-			LocationBinder binder = (LocationBinder) service;
-			mService = binder.getService();
-			mBound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName className) {
-			mBound = false;
-		}
-	};
 
 }

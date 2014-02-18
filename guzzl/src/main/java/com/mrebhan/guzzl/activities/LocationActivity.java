@@ -116,10 +116,6 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
             initializeMarker(currentPosition);
         } else {
             marker.setPosition(currentPosition);
-            // center map over current position
-            if (centerMap)
-                googleMap.moveCamera(CameraUpdateFactory
-                        .newLatLng(currentPosition));
         }
 
         // animate the marker given current bearing and velocity
@@ -127,7 +123,10 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
 
         // given the calculated final position, animate the camera to that position if center map is true
         if (centerMap) {
-            CameraPosition c = new CameraPosition.Builder().target(finalPosition).bearing((float) bearing).zoom(googleMap.getCameraPosition().zoom).build();
+            // start from current position in case position has moved
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+            CameraPosition c = new CameraPosition.Builder().target(finalPosition).bearing((float) bearing)
+                    .zoom(googleMap.getCameraPosition().zoom).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c), CAMERA_ANIMATION_TIME, new GoogleMap.CancelableCallback() {
                 @Override
                 public void onFinish() {

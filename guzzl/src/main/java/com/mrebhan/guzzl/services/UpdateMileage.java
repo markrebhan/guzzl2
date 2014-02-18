@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.google.android.gms.maps.model.LatLng;
@@ -38,9 +39,6 @@ public class UpdateMileage extends Service {
     long previousTime = 0;
     double timeElapsed = 0;
     public static double totalTimeElapsed = 600; // set to 10 minutes so the notification appears the first time with no time limit
-
-    UpdateInfoBar updateInfoBar;
-    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
@@ -75,6 +73,8 @@ public class UpdateMileage extends Service {
             Bundle extras = intent.getExtras();
             double[] loc = extras.getDoubleArray(GuzzlApp.EXTRA_COORDINATES);
 
+            // if it is determined we are in a vehicle when a location is received, update mileage
+            if(GuzzlApp.STATE_IN_VEHICLE){
             // calculate time elapsed to help determine fuel efficiency
             currentTime = System.currentTimeMillis();
             if (previousTime != 0)
@@ -84,15 +84,13 @@ public class UpdateMileage extends Service {
             // create a new asynctask and execute
             AsyncTaskUpdateMetrics asyncTaskUpdateMetrics = new AsyncTaskUpdateMetrics(context);
             asyncTaskUpdateMetrics.execute(loc[0], loc[1], timeElapsed);
+            }
 
-
-            Log.d(TAG, "onReceive");
         }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 

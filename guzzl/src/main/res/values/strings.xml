@@ -19,6 +19,7 @@
     <string name="slider_starting_value">0</string>
     <string name="mpg">MPG</string>
     <string name="gal">GAL</string>
+    <string name="miles">Miles</string>
     <string name="fuel_remaining">Fuel Gauge Reading</string>
     <string name="modify_fuel">Modify Fuel</string>
     <string name="notification_text">Approximately %1$s Miles of Fuel Left</string>
