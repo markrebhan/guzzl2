@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 
 import com.mrebhan.guzzl.R;
@@ -38,8 +39,6 @@ public class FragmentTransactions {
 		FragmentManager fm = activity.getSupportFragmentManager();
 		// pop previous fragment so the back button does not open them back up by popping 0th entry and with constant
 		fm.popBackStack(fm.getBackStackEntryAt(0).getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        // replace back infobar once other fragments have been removed;
-        replaceInfoBar(activity);
 		
 	}
 
@@ -54,8 +53,14 @@ public class FragmentTransactions {
         activity.getSupportFragmentManager().beginTransaction().remove(infoBar).commit();
     }
 
-    public static void replaceNotification(FragmentActivity activity){
-
+    public static void replaceCenterMap(FragmentActivity activity, Fragment fragment){
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_centerMap, fragment).commit();
     }
+
+    public static void removeCenterMap(FragmentActivity activity, Fragment fragment){
+        activity.getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+    }
+
+
 	
 }

@@ -30,4 +30,16 @@
 
     </FrameLayout>
 
+    <!-- this framelayout is for center map button -->
+
+    <FrameLayout
+        android:id="@+id/frameLayout_centerMap"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        </FrameLayout>
+
 </RelativeLayout>

@@ -24,6 +24,7 @@ public class ActivityRecognitionService extends IntentService{
 			ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
 			DetectedActivity mostProbableActivity = result.getMostProbableActivity();
 			int activityType = mostProbableActivity.getType();
+            Log.d(TAG, Integer.toString(activityType));
 			if(activityType == DetectedActivity.IN_VEHICLE) GuzzlApp.STATE_IN_VEHICLE = true;
             else GuzzlApp.STATE_IN_VEHICLE = false;
 			Log.d(TAG, Boolean.toString(GuzzlApp.STATE_IN_VEHICLE));

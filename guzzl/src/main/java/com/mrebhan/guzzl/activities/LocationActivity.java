@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,8 +23,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mrebhan.guzzl.R;
 import com.mrebhan.guzzl.animations.MarkerAnimation;
 import com.mrebhan.guzzl.app.GuzzlApp;
+import com.mrebhan.guzzl.fragments.CenterMapFragment;
+import com.mrebhan.guzzl.interfacesgeneral.OnMapCenterClick;
 import com.mrebhan.guzzl.interfacesgeneral.OnStateShowRangeOnMapChanged;
 import com.mrebhan.guzzl.math.MetricConversion;
+import com.mrebhan.guzzl.utils.FragmentTransactions;
 
 /*
  * This Class Finds and Displays current position on Map 
@@ -32,7 +36,7 @@ import com.mrebhan.guzzl.math.MetricConversion;
  */
 
 public class LocationActivity extends LocationServiceHandlerActivity implements
-        OnMapClickListener, OnMarkerClickListener, OnStateShowRangeOnMapChanged {
+        OnMapClickListener, OnMarkerClickListener, OnStateShowRangeOnMapChanged, OnMapCenterClick {
 
     public static final String TAG = "LocationActivity";
     public static final int CAMERA_ANIMATION_TIME = 1000; // in ms
@@ -45,16 +49,14 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
 
     protected final String zoomS = "zoom";
     protected final String centerMapS = "centerMap";
-
-    LocationManager locationManager;
-    Location location;
-
     protected LatLng currentPosition;
     protected double bearing;
     protected double velocity;
 
     protected float zoom = 15f;
     protected boolean centerMap = true;
+
+    Fragment centerMapFragment = new CenterMapFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +188,8 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
     public void onMapClick(LatLng point) {
         // turn off centering map on location refresh
         centerMap = false;
+        // add a fragment to show button to go back to map center
+        FragmentTransactions.replaceCenterMap(this, centerMapFragment);
     }
 
     @Override
@@ -193,5 +197,13 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
         // set centerMap to true when clicked (centered by default)
         centerMap = true;
         return false;
+    }
+
+    @Override
+    public void OnCenterMapClick() {
+        // on fragment center click callback, center the map and remove fragment
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(currentPosition));
+        centerMap = true;
+        FragmentTransactions.removeCenterMap(this, centerMapFragment);
     }
 }
