@@ -19,8 +19,9 @@ public class CancelCurrentFragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		activity.getSupportFragmentManager().popBackStack();
-        // add the infobar fragment back if no more other fragments
+        // add the infobar fragment back if there is not replace car fragment or fuel gauge fragment
         if (activity.getSupportFragmentManager().getBackStackEntryCount() <= 1) FragmentTransactions.replaceInfoBar(activity);
+
 	}
 
 }

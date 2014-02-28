@@ -2,8 +2,10 @@ package com.mrebhan.guzzl.activities;
 
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.mrebhan.guzzl.R;
 import com.mrebhan.guzzl.utils.FragmentTransactions;
@@ -20,6 +22,24 @@ public class MapActivityMenu extends CheckConfigurationActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_map_activity, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                // DO SOMETHING When Expanded
+                return true; // return true to expand view
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                // DO Something when Collapsed
+                return true; // return true to collapse view
+            }
+        });
+
+        // Configure the search info and add any event listeners
         return true;
     }
 

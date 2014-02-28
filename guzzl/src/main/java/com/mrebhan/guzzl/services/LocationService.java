@@ -88,7 +88,7 @@ public class LocationService extends Service implements LocationListener,
 
         if (!isNetworkEnabled) {
             // if no network enabled show a dialog indicating so
-            sendBroadcast(new Intent (GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
+            sendBroadcast(new Intent (GuzzlApp.ACTION_NO_GPS_RECIEVER));
         } else {
             // get the last known location if unable to find new one
             location = locationManager.getLastKnownLocation(provider);
@@ -136,9 +136,12 @@ public class LocationService extends Service implements LocationListener,
     public  class ReceiverChangeRefreshTime extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
+            // default extra to true so distance is recorded just in case
             boolean isActivity = intent.getBooleanExtra(GuzzlApp.EXTRA_ON_ACTIVITY, true);
             if(isActivity) {
+                // update location refresh rate
                 setLocationUpdate(GuzzlApp.MIN_TIME_LOCATION_REFRESH_ACTIVE);
+                // turn on activity recognition if connected to activity
                 activityRecognitionClient.requestActivityUpdates(GuzzlApp.MIN_TIME_LOCATION_REFRESH_ACTIVE, pendingIntent);
             }
             else{

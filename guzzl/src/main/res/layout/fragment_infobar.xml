@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
+    android:clickable="true"
     android:background="@drawable/background_fragment">
 
 
@@ -11,7 +12,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
-        android:background="@drawable/gas_pump"/>
+        android:src="@drawable/gas_pump"
+        android:background="@drawable/selector_opaque_black"
+        android:contentDescription="@string/description_fuel"/>
 
     <ProgressBar
         android:id="@+id/progressbar_fuel_gauge"
@@ -24,10 +27,9 @@
         android:layout_centerVertical="true"
         android:minHeight="32dp"
         android:maxHeight="32dp"
-
         android:progress="100"
         android:max="100"
-        android:progressDrawable="@drawable/progressbar_fuel" />
+        android:progressDrawable="@drawable/progressbar_fuel"/>
 
 
     <ImageButton
@@ -36,7 +38,9 @@
         android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/info_text"
-        android:background="@drawable/radar"
+        android:src="@drawable/radar"
+        android:background="@drawable/selector_opaque_black"
+        android:contentDescription="@string/description_range"
         />
 
 
@@ -48,7 +52,7 @@
         android:layout_centerVertical="true"
         android:textColor="@color/text_silver"
         android:layout_alignParentRight="true"
-        android:paddingRight="5dp"/>
+        android:paddingRight="5dp" />
 
 
 </RelativeLayout>

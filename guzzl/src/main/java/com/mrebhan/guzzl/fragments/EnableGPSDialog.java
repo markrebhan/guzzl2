@@ -10,8 +10,6 @@ import android.os.Bundle;
 
 public class EnableGPSDialog extends DialogFragment{
 
-	Context context;
-
 	public EnableGPSDialog() {}
 
 	@Override

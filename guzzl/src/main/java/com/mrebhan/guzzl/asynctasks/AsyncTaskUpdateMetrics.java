@@ -55,6 +55,7 @@ public class AsyncTaskUpdateMetrics extends AsyncTask<Double, Void, Void> {
         double fuelConsumed = 0;
         if (GuzzlApp.STATE_PREVIOUS_POSITION != null) {
             distanceTraveled = DistanceBetweenPreviousTwoPoints.distance(GuzzlApp.STATE_PREVIOUS_POSITION, GuzzlApp.STATE_CURRENT_POSITION); // in meters
+
             boolean isHighway = CalculateEfficiency.highwayOrCity(distanceTraveled, timeElapsed);
             // calculate fuel consumed based on distance traveled and fuelEfficency
             fuelConsumed = FuelRemaining.CalculateFuelConsumed(distanceTraveled, getFuelEfficiency(isHighway));

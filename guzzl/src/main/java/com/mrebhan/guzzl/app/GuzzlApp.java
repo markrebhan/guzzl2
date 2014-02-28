@@ -11,11 +11,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.mrebhan.guzzl.services.*;
 
 public class GuzzlApp extends Application implements OnSharedPreferenceChangeListener{
-	
+
 	// Global variables
 	public static final String ACTION_LOCATION_RECIEVER = "com.mrebhan.guzzl.locationReciever";
 	public static final String ACTION_NO_GPS_RECIEVER = "com.mrebhan.guzzl.receivers.ReceiverNoGPS";
-	public static final String ACTION_NO_NETWORK_RECIEVER = "com.mrebhan.guzzl.receivers.ReceiverNoNetwork";
+    public static final String ACTION_NO_NETWORK_RECEIVER  = "com.mrebhan.guzzl.receivers.ReceiverNoNetwork";
     public static final String ACTION_START_ALARMMANAGER = "com.mrebhan.guzzl.AlarmManager";
     public static final String ACTION_CHANGE_LOCATION_REFRESH = "com.guzzl.LocationRefresh";
 	

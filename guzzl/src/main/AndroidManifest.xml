@@ -55,6 +55,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.mrebhan.guzzl.services.LocationService" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </service>
         <service
@@ -62,7 +63,11 @@
             android:exported="false"></service>
         <service
             android:name="com.mrebhan.guzzl.services.UpdateMileage"
-            android:exported="false"></service>
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+            </service>
         <service android:name=".services.ResetNotificationTimer"
             android:exported="false"></service>
 
@@ -73,6 +78,12 @@
                 <action android:name="com.mrebhan.guzzl.AlarmManager"></action>
             </intent-filter>
         </receiver>
+        <receiver android:name=".receivers.ConnectionChangedReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
 
     </application>
 

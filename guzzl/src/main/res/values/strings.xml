@@ -24,5 +24,8 @@
     <string name="modify_fuel">Modify Fuel</string>
     <string name="notification_text">Approximately %1$s Miles of Fuel Left</string>
     <string name="notification_title">Low Fuel Alert</string>
+    <string name="action_search">Search</string>
+    <string name="description_range">Fuel Range</string>
+    <string name="description_fuel">Fuel Remaining</string>
 
 </resources>

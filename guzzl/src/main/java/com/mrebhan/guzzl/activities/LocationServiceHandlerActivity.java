@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.fragments.EnableGPSDialog;
+import com.mrebhan.guzzl.fragments.NetworkConnectionDialog;
 import com.mrebhan.guzzl.services.LocationService;
 
 /*
@@ -25,16 +26,18 @@ public class LocationServiceHandlerActivity extends MapActivityMenu {
 	LocationService mService;
 	boolean mBound = false;
 	BroadcastReceiver receiverNoGPS;
-	BroadcastReceiver receiverNoNetwork;
-
+    BroadcastReceiver receiverNoNetwork;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		receiverNoNetwork = new RecieverNoNetwork();
-		registerReceiver(receiverNoNetwork, new IntentFilter(
-				GuzzlApp.ACTION_NO_NETWORK_RECIEVER));
+		receiverNoGPS = new RecieverNoGPS();
+		registerReceiver(receiverNoGPS, new IntentFilter(
+				GuzzlApp.ACTION_NO_GPS_RECIEVER));
+
+        receiverNoNetwork = new RecieverNoNetworkConnection();
+        registerReceiver(receiverNoNetwork, new IntentFilter(GuzzlApp.ACTION_NO_NETWORK_RECEIVER));
 	}
 
     @Override
@@ -54,7 +57,8 @@ public class LocationServiceHandlerActivity extends MapActivityMenu {
     @Override
 	protected void onDestroy() {
 		super.onDestroy();
-		unregisterReceiver(receiverNoNetwork);
+		unregisterReceiver(receiverNoGPS);
+        unregisterReceiver(receiverNoNetwork);
 	}
 
 
@@ -62,11 +66,11 @@ public class LocationServiceHandlerActivity extends MapActivityMenu {
 	static EnableGPSDialog enableGPSDialog;
 	// this inner receiver class displays a error pop up if no network is
 	// detected
-	public class RecieverNoNetwork extends BroadcastReceiver {
+	public class RecieverNoGPS extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// TODO add something here
+
 			Log.d("NoNetwork", "No Network");
 			if (enableGPSDialog == null) {
 				enableGPSDialog = new EnableGPSDialog();
@@ -75,5 +79,17 @@ public class LocationServiceHandlerActivity extends MapActivityMenu {
 		}
 
 	}
+
+    NetworkConnectionDialog networkConnectionDialog;
+    public class RecieverNoNetworkConnection extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(networkConnectionDialog == null){
+                networkConnectionDialog = new NetworkConnectionDialog();
+                networkConnectionDialog.show(getFragmentManager(), "No Network");
+            }
+        }
+    }
+
 
 }
