@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.services.LocationService;
 import com.mrebhan.guzzl.services.UpdateMileage;
 
@@ -21,18 +22,16 @@ public class AlarmManagerReceiver extends BroadcastReceiver{
 
         Log.d("AlarmManagerReceiver", "onReceive");
 
-        long interval = 30000; // in ms
+        Intent intentLocation = new Intent(GuzzlApp.ACTION_START_LOCATION_SERVICE);
+        Intent intentMileage = new Intent(GuzzlApp.ACTION_START_UPDATE_MILEAGE);
 
-        Intent intentLocation = new Intent(context, LocationService.class);
-        Intent intentMileage = new Intent(context, UpdateMileage.class);
-
-        PendingIntent pendingIntent1 = PendingIntent.getService(context,0,intentLocation,PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent pendingIntent2 = PendingIntent.getService(context,0,intentMileage,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent1 = PendingIntent.getService(context,-1,intentLocation,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent2 = PendingIntent.getService(context,-1,intentMileage,PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, System.currentTimeMillis(), interval, pendingIntent1);
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, System.currentTimeMillis(), interval, pendingIntent2);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent1);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent2);
 
     }
 }

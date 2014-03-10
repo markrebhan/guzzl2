@@ -34,9 +34,9 @@
         android:inputType="number"
         android:selectAllOnFocus="true"
         android:text="@string/slider_starting_value"
-        android:textColor="#DDDDDD"
+        android:textColor="@color/text_silver"
         
-        android:background="@drawable/edittext_slider"/>
+        android:background="@drawable/stroke_orange"/>
     
     <SeekBar 
         android:id="@+id/slider_seek_bar"

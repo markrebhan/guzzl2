@@ -18,6 +18,8 @@ public class GuzzlApp extends Application implements OnSharedPreferenceChangeLis
     public static final String ACTION_NO_NETWORK_RECEIVER  = "com.mrebhan.guzzl.receivers.ReceiverNoNetwork";
     public static final String ACTION_START_ALARMMANAGER = "com.mrebhan.guzzl.AlarmManager";
     public static final String ACTION_CHANGE_LOCATION_REFRESH = "com.guzzl.LocationRefresh";
+    public static final String ACTION_START_LOCATION_SERVICE = "com.mrebhan.guzzl.services.LocationService";
+    public static final String ACTION_START_UPDATE_MILEAGE = "com.guzzl.services.UpdateMileage";
 	
 	public static final String EXTRA_COORDINATES = "com.mrebhan.guzzl.coordinates";
 	public static final String EXTRA_ON_ACTIVITY = "com.mrebhan.guzzl.onActivity";

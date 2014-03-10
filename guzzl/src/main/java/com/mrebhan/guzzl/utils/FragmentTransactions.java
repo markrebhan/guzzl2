@@ -19,6 +19,7 @@ public class FragmentTransactions {
 
     public static final String TAG_CAR_PICKER = "car_picker";
     public static final String TAG_FUEL = "fuel";
+    public static final String TAG_FUEL_STOP = "fuel_stop";
 
 	public static void replaceCarPicker(FragmentActivity activity){
 		// Pop the carpicker fragment to select/mofify car settings
@@ -69,6 +70,13 @@ public class FragmentTransactions {
         ft.remove(fragment).commit();
     }
 
+    public static void replaceFuelStop(FragmentActivity activity){
+        // Pop the carpicker fragment to select/mofify car settings
+        Fragment fragment = new FuelRefillFragment();
+        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, fragment, TAG_FUEL_STOP);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
 	
 }

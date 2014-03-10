@@ -5,9 +5,9 @@
     android:clickable="true"
     android:layout_gravity="center"
     android:background="@drawable/background_fragment" >
-    
-    
-    <TextView 
+
+
+    <TextView
         android:id="@+id/title_fuelguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,8 +15,8 @@
         android:textColor="@color/text_silver"
         android:layout_centerHorizontal="true"
         android:textSize="22sp"/>
-    
-    <SeekBar 
+
+    <SeekBar
         android:id="@+id/seekbar_fuel_guage"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -25,11 +25,11 @@
         android:maxHeight="100dp"
         android:progress="16"
         android:max="16"
-        android:progressDrawable="@drawable/progressbar_fuel" 
+        android:progressDrawable="@drawable/progressbar_fuel"
         android:thumb="@drawable/thumb_fuel"
         android:thumbOffset="0dp"
         android:layout_below="@+id/text_fuel_gauge"/>
-    
+
     <TextView android:id="@+id/text_fuel_gauge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,18 +38,84 @@
         android:layout_below="@+id/title_fuelguage"
         android:textColor="@color/text_silver"/>
 
+    <Button
+        android:id="@+id/button_minus"
+        android:layout_width="80dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        android:text="--"
+        android:background="@drawable/selector_opaque_black"
+        android:textColor="@color/text_silver"
+        android:layout_below="@id/seekbar_fuel_guage"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/layout_fuel_amount_added"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/LinearLayoutOptions"
+        android:layout_marginBottom="5dp">
+
+        <EditText
+            android:id="@+id/edittext_fuel_level"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_silver"
+            android:maxLength="6"
+            android:layout_marginRight="5dp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/stroke_orange"/>
+
+        <TextView
+            android:id="@+id/label_fuel_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@string/gal"
+            android:textColor="@color/text_silver" />
+
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/button_plus"
+        android:layout_width="80dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        android:background="@drawable/selector_opaque_black"
+        android:textColor="@color/text_silver"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/seekbar_fuel_guage"
+        android:text="+"/>
+
+    <!--<include
+        android:id="@+id/layout_button_add_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_fuel_guage2"
+        android:layout_alignRight="@+id/seekbar_fuel_guage2"
+        android:layout_marginBottom="3dp"
+        layout="@layout/button_add_sub" /> -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/orange"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/seekbar_fuel_guage"/>
-    
+        android:layout_below="@+id/button_minus"/>
+
     <LinearLayout
         android:id="@+id/LinearLayoutOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/seekbar_fuel_guage"
+        android:layout_below="@+id/button_minus"
         android:layout_marginTop="7dp"
         android:weightSum="1.01" >
 
@@ -59,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             style="?android:attr/buttonBarButtonStyle"
-            android:text="@string/cancel" 
+            android:text="@string/cancel"
             android:textColor="@color/text_silver"/>
 
         <View
@@ -77,6 +143,6 @@
             android:text="@string/ok"
             android:textColor="@color/text_silver" />
     </LinearLayout>
-    
+
 
 </RelativeLayout>

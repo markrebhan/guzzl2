@@ -55,7 +55,6 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.mrebhan.guzzl.services.LocationService" />
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </service>
         <service
@@ -65,7 +64,7 @@
             android:name="com.mrebhan.guzzl.services.UpdateMileage"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="com.guzzl.services.UpdateMileage"></action>
             </intent-filter>
             </service>
         <service android:name=".services.ResetNotificationTimer"

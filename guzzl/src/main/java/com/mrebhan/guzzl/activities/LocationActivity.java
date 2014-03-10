@@ -10,14 +10,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mrebhan.guzzl.R;
@@ -26,8 +30,11 @@ import com.mrebhan.guzzl.app.GuzzlApp;
 import com.mrebhan.guzzl.fragments.CenterMapFragment;
 import com.mrebhan.guzzl.interfacesgeneral.OnMapCenterClick;
 import com.mrebhan.guzzl.interfacesgeneral.OnStateShowRangeOnMapChanged;
+import com.mrebhan.guzzl.math.LatLngBoundsCircle;
 import com.mrebhan.guzzl.math.MetricConversion;
 import com.mrebhan.guzzl.utils.FragmentTransactions;
+
+import java.util.List;
 
 /*
  * This Class Finds and Displays current position on Map 
@@ -97,9 +104,9 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
 
     }
 
-    public void initializeMarker(LatLng latLng) {
+    public void initializeMarker(LatLng latLng, float bearing) {
         // initialize a new marker and set the position and options
-        marker = googleMap.addMarker(new MarkerOptions().position(latLng));
+        marker = googleMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_arrow)).rotation(bearing));
         if (centerMap)
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
@@ -115,9 +122,10 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
         // if the marker is null, create a new marker and position it to the
         // current position
         if (marker == null) {
-            initializeMarker(currentPosition);
+            initializeMarker(currentPosition, (float) bearing);
         } else {
             marker.setPosition(currentPosition);
+            marker.setRotation((float) bearing);
         }
 
         // animate the marker given current bearing and velocity
@@ -152,7 +160,16 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
     public void onShowRangeOnMap() {
         if (GuzzlApp.STATE_SHOW_RANGE_ON_MAP) {
             if (circle == null) {
-                circle = googleMap.addCircle(new CircleOptions().center(currentPosition).radius(MetricConversion.milesToMeters(sharedPreferences.getFloat(GuzzlApp.PREFERENCE_RANGE, 0) * 0.8d)).fillColor(R.color.opaque_black));
+                double radius = MetricConversion.milesToMeters(sharedPreferences.getFloat(GuzzlApp.PREFERENCE_RANGE, 0) * 0.8d);
+                circle = googleMap.addCircle(new CircleOptions().center(currentPosition).radius(radius).fillColor(R.color.opaque_black));
+                List<LatLng> points = LatLngBoundsCircle.findLatlng(currentPosition, radius);
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for ( int i = 0; i < points.size(); i++){
+                    builder.include(points.get(i));
+                }
+                LatLngBounds bounds =  builder.build();
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,50));
+
 
             } else {
                 circle.setCenter(currentPosition);
@@ -162,13 +179,9 @@ public class LocationActivity extends LocationServiceHandlerActivity implements
             if (circle != null) {
                 circle.remove();
                 circle = null;
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(currentPosition).zoom(zoom).build()));
             }
         }
-    }
-
-    public void updateRange() {
-
-
     }
 
     // inner class that defines action to be taken when a location broadcast is

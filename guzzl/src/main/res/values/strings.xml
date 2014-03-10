@@ -27,5 +27,6 @@
     <string name="action_search">Search</string>
     <string name="description_range">Fuel Range</string>
     <string name="description_fuel">Fuel Remaining</string>
+    <string name="fuel_stop">Fuel Stop</string>
 
 </resources>

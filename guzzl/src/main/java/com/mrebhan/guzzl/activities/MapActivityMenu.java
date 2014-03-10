@@ -51,9 +51,13 @@ public class MapActivityMenu extends CheckConfigurationActivity {
                 FragmentTransactions.removeInfoBar(this);
                 return true;
             case R.id.menu_modify_fuel:
-                Bundle bundle = new Bundle();
                 FragmentTransactions.replaceFuelGauge(this);
                 FragmentTransactions.removeInfoBar(this);
+                return true;
+            case R.id.menu_fuel_stop:
+                FragmentTransactions.replaceFuelStop(this);
+                FragmentTransactions.removeInfoBar(this);
+                return true;
             default:
                 return false;
         }

@@ -1,9 +1,6 @@
 package com.mrebhan.guzzl.fragments;
 
-import java.security.Guard;
-
 import com.mrebhan.guzzl.R;
-import com.mrebhan.guzzl.drawables.FuelGageBitmap;
 import com.mrebhan.guzzl.math.*;
 import com.mrebhan.guzzl.interfacesgeneral.*;
 import com.mrebhan.guzzl.app.*;
@@ -13,7 +10,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,9 +25,11 @@ public class FuelGuageFragment extends Fragment {
 
     private TextView textView;
     private SeekBar seekBar;
+    protected View view;
 
     //As this is the exit back to the main part of the activity, run the onStateShowRange to change and values for range if fuel levels were modified
     OnStateShowRangeOnMapChanged onStateShowRangeOnMapChanged;
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onAttach(Activity activity) {
@@ -45,9 +43,15 @@ public class FuelGuageFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPreferences = getActivity().getSharedPreferences(GuzzlApp.PREFERENCE_MAIN, 0);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fuel_reading, container, false);
+        view = inflater.inflate(R.layout.fragment_fuel_reading, container, false);
 
         seekBar = (SeekBar) view.findViewById(R.id.seekbar_fuel_guage);
         onProgressChange();
@@ -70,29 +74,36 @@ public class FuelGuageFragment extends Fragment {
         return view;
     }
 
-    public void onOkay() {
+    private void onOkay() {
 
         // get seekbar progress and max
-        float amount = seekBar.getProgress();
-        float total = seekBar.getMax();
+        final float amount = seekBar.getProgress();
+        final float total = seekBar.getMax();
 
-        // get the total amount of fuel from preferences
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(GuzzlApp.PREFERENCE_MAIN, 0);
-        int fuel_size = sharedPreferences.getInt(GuzzlApp.PREFERENCE_FUEL_SIZE, 0);
-        float fuelRemaining = (amount / total) * fuel_size;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        // calculate the amount and put into SharedPreferences
-        Log.d(TAG, Float.toString((amount / total) * fuel_size));
-        editor.putFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, fuelRemaining);
-        editor.putFloat(GuzzlApp.PREFERENCE_RANGE, (float) fuelRemaining * sharedPreferences.getInt(GuzzlApp.PREFERENCE_MPG_HW, 0));
-        editor.commit();
+        // update shared preferences with new fuel reading
+        new Thread(){
+            public void run(){
+
+                // get the total amount of fuel from preferences
+                int fuel_size = sharedPreferences.getInt(GuzzlApp.PREFERENCE_FUEL_SIZE, 0);
+                float fuelRemaining = (amount / total) * fuel_size;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                // calculate the amount and put into SharedPreferences
+                editor.putFloat(GuzzlApp.PREFERENCE_FUEL_REMAINING, fuelRemaining);
+                editor.putFloat(GuzzlApp.PREFERENCE_RANGE, fuelRemaining * sharedPreferences.getInt(GuzzlApp.PREFERENCE_MPG_HW, 0));
+                editor.commit();
+
+            }
+        }.start();
+
         // Remove this fragment and all of backstack
         FragmentTransactions.removeAllFragments(getActivity());
         // add back infobar
         FragmentTransactions.replaceInfoBar(getActivity());
 
-
     }
+
+
 
     public void onProgressChange() {
 
